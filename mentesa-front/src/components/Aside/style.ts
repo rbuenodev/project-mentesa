@@ -36,38 +36,49 @@ export const UserContainer = styled.div`
   }
 `;
 
-export const MenuContainer = styled.nav`
+export const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 50px 0 0 20px;
-`;
+  margin: 60px 0;
 
-export const MenuItemLink = styled.a<IMenuProps>`
-  color: #fff;
-  text-decoration: none;
-  margin: 22px 0 0 0;
-  display: flex;
-  align-items: center;
-  transition: opacity 0.3s;
+  .menuItemLink {
+    color: #fff;
+    text-decoration: none;
+    margin: 15px 0 15px 0;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s;
+    padding-left: 22px;
+    h4 {
+      font-size: large;
+      font-weight: bold;
+      margin-left: 7px;
+    }
 
-  ${(props) =>
-    props.isActive &&
-    css`
-      background: #fff;
-      color: #6813d4;
-      border-end-end-radius: 22px;
-      border-start-end-radius: 22px;
-      padding: 8px;
-      margin-right: 10px;
-    `}
-
-  h4 {
-    font-size: large;
-    font-weight: bold;
-    margin-left: 7px;
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
-  &:hover {
-    opacity: 0.7;
+  .menuItemLinkActived {
+    display: flex;
+    background: #fff;
+    color: #6813d4;
+    border-end-end-radius: 22px;
+    border-start-end-radius: 22px;
+    padding: 8px 8px 8px 22px;
+    margin: 15px 10px 15px 0;
+    text-decoration: none;
+    align-items: center;
+    transition: opacity 0.3s;
+    h4 {
+      font-size: large;
+      font-weight: bold;
+      margin-left: 7px;
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;

@@ -2,16 +2,26 @@ import {
   Container,
   Header,
   MenuContainer,
-  MenuItemLink,
+  // MenuItemLink,
   UserContainer,
 } from "./style";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import TodayIcon from "@mui/icons-material/Today";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/auth";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Aside: React.FC = () => {
+  const { singOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    singOut();
+    navigate("/");
+  };
+
   return (
     <Container>
       <Header>
@@ -19,22 +29,34 @@ const Aside: React.FC = () => {
         <p>Bem vindo(a),</p>
         <UserContainer>
           <h4>Dr. Estranho</h4>
-          <button>
+          <button onClick={handleSignOut}>
             <LogoutIcon />
           </button>
         </UserContainer>
       </Header>
       <MenuContainer>
-        <MenuItemLink href="/" isActive={true}>
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) =>
+            isActive ? "menuItemLinkActived" : "menuItemLink"
+          }>
           <HomeIcon />
           <h4>DashBoard</h4>
-        </MenuItemLink>
-        <MenuItemLink href="/patients" isActive={false}>
+        </NavLink>
+        <NavLink
+          to="/patients"
+          className={({ isActive }) =>
+            isActive ? "menuItemLinkActived" : "menuItemLink"
+          } >
           <PersonIcon /> <h4>Pacientes</h4>
-        </MenuItemLink>
-        <MenuItemLink href="/sessions" isActive={false}>
+        </NavLink>
+        <NavLink
+          to="/sessions"
+          className={({ isActive }) =>
+            isActive ? "menuItemLinkActived" : "menuItemLink"
+          } >
           <TodayIcon /> <h4>Sessões</h4>
-        </MenuItemLink>
+        </NavLink>
       </MenuContainer>
     </Container>
   );
