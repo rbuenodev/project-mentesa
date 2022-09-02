@@ -21,7 +21,6 @@ exports.load = async (req, res, next, id) => {
  * @public
  */
 exports.get = (req, res) => res.json(req.locals.user.transform());
-
 /**
  * Get logged in user info
  * @public
@@ -37,7 +36,7 @@ exports.create = async (req, res, next) => {
     const user = new User(req.body);
     const savedUser = await user.save();
     res.status(httpStatus.CREATED);
-    res.json(savedUser.transform());
+    res.json(savedUser.transform());    
   } catch (error) {
     next(User.checkDuplicateEmail(error));
   }

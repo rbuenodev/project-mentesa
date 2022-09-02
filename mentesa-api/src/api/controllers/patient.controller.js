@@ -32,7 +32,7 @@ exports.loggedIn = (req, res) => res.json(req.patient.transform());
  * Create new patient
  * @public
  */
-exports.create = async (req, res, next) => {
+exports.create = async (req, res, next) => {    
     try {
         const patient = new Patient(req.body);
         const savedPatient = await patient.save();
@@ -89,13 +89,13 @@ exports.list = async (req, res, next) => {
 };
 
 /**
- * Delete pacience
+ * Delete patient
  * @public
  */
 exports.remove = (req, res, next) => {
-    const { pacience } = req.locals;
+    const { patient } = req.locals;
 
-    pacience.remove()
+    patients.remove()
         .then(() => res.status(httpStatus.NO_CONTENT).end())
         .catch((e) => next(e));
 };

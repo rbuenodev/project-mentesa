@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 module.exports = {
 
-    // GET /v1/patients
+    // GET /v1/:professionalId/patients
     listPatients: {
         query: {
             page: Joi.number().min(1),
@@ -11,21 +11,27 @@ module.exports = {
             name: Joi.string(),
             gender: Joi.string(),
             birthday: Joi.date(),
+        },   
+        params: {
+            professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),                   
         },
     },
 
-    // POST /v1/patients
+    // POST /v1/:professionalId/patients
     createPatient: {
         body: {
-            professionalId: Joi.string().required(),
+            userId: Joi.string().required(),
             name: Joi.string().required(),
             cpf: Joi.string().required(),
             email: Joi.string().email(),
             gender: Joi.string(),
         },
+        params: {
+            professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),                   
+        },
     },
 
-    // PUT /v1/patients/:patientId
+    // PUT /v1/:professionalId/patients/:patientId
     replacePatient: {
         body: {
             professionalId: Joi.string(),
@@ -35,11 +41,12 @@ module.exports = {
             gender: Joi.string(),
         },
         params: {
-            patientId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
+            professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
+            patientId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),            
         },
     },
 
-    // PATCH /v1/patients/:patientId
+    // PATCH /v1/:professionalId/patients/:patientId
     updatePatient: {
         body: {
             professionalId: Joi.string(),
@@ -49,6 +56,7 @@ module.exports = {
             gender: Joi.string(),
         },
         params: {
+            professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
             patientId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
         },
     },

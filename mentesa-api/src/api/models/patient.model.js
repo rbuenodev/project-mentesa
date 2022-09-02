@@ -10,7 +10,7 @@ const APIError = require('../errors/api-error');
 const patientSchema = new mongoose.Schema({
     professionalId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Professional',
+        ref: 'User',
         required: true,
     },
     name: {

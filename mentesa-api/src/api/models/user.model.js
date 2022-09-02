@@ -51,6 +51,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  crp: {
+    type: String,
+    maxlength: 128,
+    index: true,
+    trim: true,
+},
+approach: {
+    type: String,
+    maxlength: 128,
+    index: true,
+    trim: true,
+},
+contact: {
+    type: String,
+    maxlength: 128,
+    index: true,
+    trim: true,
+},
 }, {
   timestamps: true,
 });

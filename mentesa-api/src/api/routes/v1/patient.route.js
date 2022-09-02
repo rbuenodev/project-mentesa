@@ -12,12 +12,12 @@ const {
 const router = express.Router();
 
 /**
- * Load user when API with userId route parameter is hit
+ * Load patient when API with patientId route parameter is hit
  */
-router.param('pacientId', controller.load);
+router.param('patientId', controller.load);
 
 router
-    .route('/')
+    .route('/:professionalId/patients')
     /**
      * @api {get} v1/patiences List patiences
      * @apiDescription Get a list of patiences
@@ -73,7 +73,7 @@ router
     .post(authorize(ADMIN), validate(createPatient), controller.create);
 
 router
-    .route('/:pacientId')
+    .route('/:professionalId/patients/:patientId')
     /**
      * @api {get} v1/patiences/:id Get Patient
      * @apiDescription Patient user information

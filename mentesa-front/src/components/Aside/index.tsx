@@ -2,7 +2,6 @@ import {
   Container,
   Header,
   MenuContainer,
-  // MenuItemLink,
   UserContainer,
 } from "./style";
 import HomeIcon from "@mui/icons-material/Home";
