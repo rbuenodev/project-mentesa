@@ -10,6 +10,7 @@ export interface LoginProps {
 export const TOKEN_KEY = "@menteSa-Token";
 export const REFRESH_TOKEN = "@menteSa-RefreshTokem";
 export const USER_EMAIL = "@menteSa-UserEmail";
+export const PROFESSIONAL_ID = "@menteSa-ProfessionalID";
 
 export async function fetchUserLogin({
   email,
@@ -29,6 +30,7 @@ export async function fetchUserLogin({
       JSON.stringify(data.token.refreshToken)
     );
     localStorage.setItem(USER_EMAIL, JSON.stringify(data.user.email));
+    localStorage.setItem(PROFESSIONAL_ID, JSON.stringify(data.user.id));
   }
   return data;
 }
@@ -38,6 +40,14 @@ export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN);
 export const getUserEmail = () => localStorage.getItem(USER_EMAIL);
+export const getUserId = () => {
+  const id = localStorage.getItem(PROFESSIONAL_ID);
+  if (id) {
+    return JSON.parse(id);
+  } else {
+    ("");
+  }
+};
 
 export const logout = () => {
   localStorage.removeItem(TOKEN_KEY);

@@ -1,18 +1,30 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { PatientDto } from "./dtos/Patient.dto";
+import { fetchPatientList, fetchPatientById } from "./service";
+import {
+  IProfessionalId,
+  IProfessionalIdAndPatient,
+} from "../Profissional/dtos/IProfessional";
 
-import { UserResponseDto } from "./dtos/UserResponse.dto";
-import { fetchUserList, fetchUserById } from "./service";
-
-export function useUserList(): UseQueryResult<UserResponseDto[]> {
-  const queryKey = ["userList"];
-  return useQuery(queryKey, () => fetchUserList(), {
+export function usePatientList(
+  id: IProfessionalId
+): UseQueryResult<PatientDto[]> {
+  const queryKey = ["patientList"];
+  return useQuery(queryKey, () => fetchPatientList(id), {
     keepPreviousData: true,
   });
 }
 
-export function useUserById(id: string): UseQueryResult<UserResponseDto> {
-  const queryKey = ["userById"];
-  return useQuery(queryKey, () => fetchUserById(id), {
-    keepPreviousData: true,
-  });
+export function usePatientById({
+  patientId,
+  professionalId,
+}: IProfessionalIdAndPatient): UseQueryResult<PatientDto> {
+  const queryKey = ["patientById"];
+  return useQuery(
+    queryKey,
+    () => fetchPatientById({ professionalId, patientId }),
+    {
+      keepPreviousData: true,
+    }
+  );
 }
