@@ -2,18 +2,17 @@ const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const { omitBy, isNil } = require('lodash');
 const APIError = require('../errors/api-error');
-
 /**
  * session Schema
  * @private
  */
 const sessionSchema = new mongoose.Schema({
-    professionalId: {
+    professional: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    patientId: {
+    patient: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Patient',
         required: true,
@@ -22,7 +21,7 @@ const sessionSchema = new mongoose.Schema({
         type: Date,
         index: true,
     },
-    statusId: {
+    status: {
         type: String,
         // type: mongoose.Schema.Types.ObjectId,
         // ref: 'SessionStatus',
@@ -34,12 +33,12 @@ const sessionSchema = new mongoose.Schema({
         index: true,
         trim: true,
     },
-    appointmentTypeId: {
+    appointmentType: {
         type: String,
         // type: mongoose.Schema.Types.ObjectId,
         // ref: 'AppointmentType',
     },
-    sessionTypeId: {
+    sessionType: {
         type: String,
         // type: mongoose.Schema.Types.ObjectId,
         // ref: 'SessionType',
@@ -58,7 +57,7 @@ const sessionSchema = new mongoose.Schema({
 sessionSchema.method({
     transform() {
         const transformed = {};
-        const fields = ['id', 'professionalId', 'patientId', 'appointmentDate', 'statusId', 'topic', 'appointmentTypeId', 'sessionTypeId', 'createdAt'];
+        const fields = ['id', 'professional', 'patient', 'appointmentDate', 'status', 'topic', 'appointmentType', 'sessionType', 'createdAt'];
 
         fields.forEach((field) => {
             transformed[field] = this[field];
@@ -83,7 +82,7 @@ sessionSchema.statics = {
         let session;
 
         if (mongoose.Types.ObjectId.isValid(id)) {
-            session = await this.findById(id).exec();
+            session = await this.findById(id).populate("professional").populate("patient").exec();
         }
         if (session) {
             return session;
@@ -103,11 +102,13 @@ sessionSchema.statics = {
      * @returns {Promise<Session[]>}
      */
     list({
-        page = 1, perPage = 30, id, professionalId, patientId, appointmentDate, statusId
+        page = 1, perPage = 30, id, professional, patient, appointmentDate, status
     }) {
-        const options = omitBy({ id, professionalId, patientId, appointmentDate, statusId }, isNil);
+        const options = omitBy({ id, professional, patient, appointmentDate, status }, isNil);
 
         return this.find(options,)
+            .populate("professional")
+            .populate("patient")
             .sort({ createdAt: -1 })
             .skip(perPage * (page - 1))
             .limit(perPage)

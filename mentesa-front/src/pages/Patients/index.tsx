@@ -85,14 +85,13 @@ const Patients: React.FC = () => {
   }, [data]);
 
   const handleSearch = (input: string) => {
-    console.log(input);
     if (input.length === 0) {
       setFilteredRows([]);
     } else {
       const search = rows.filter((patient) => {
         return (
-          patient.name.includes(input.toLocaleLowerCase()) ||
-          patient.cpf.includes(input.toLocaleLowerCase())
+          patient.name.toLowerCase().indexOf(input) !== -1 ||
+          patient.cpf.toLowerCase().indexOf(input) !== -1
         );
       });
       setFilteredRows(search);
@@ -108,11 +107,11 @@ const Patients: React.FC = () => {
           onChange={(e) => {
             handleSearch(e.target.value);
           }}
-        ></InputSeach>
-        <PatientButton>
+        />
+        {/* <PatientButton>
           <AddCircleIcon className="iconTheme" />
           Novo Paciente
-        </PatientButton>
+        </PatientButton> */}
       </CustomHeader>
       <Box
         sx={{

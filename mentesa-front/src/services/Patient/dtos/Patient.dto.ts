@@ -6,5 +6,5 @@ export interface PatientDto {
   createdAt: string;
   cpf: string;
   birthday: string;
-  professionalId: string;
+  professional: string;
 }

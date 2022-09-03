@@ -3,27 +3,28 @@ import CustomHeader from "../../components/Header";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
-import { usePatientList } from "../../services/Patient/hooks";
 import { getUserId } from "../../services/Auth/service";
 import formatDate from "../../utils/formatDate";
 import { InputSeach, SessionButton } from "./style";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useSessionList } from "../../services/Session/hooks";
 
 interface IRow {
   id: string;
-  professionalId: string;
-  patientId: string;
+  professional: string;
+  patient: string;
   appointmentDate: string;
-  statusId: string;
+  status: string;
   topic: string;
-  appointmentTypeId: string;
-  sessionTypeId: string;
+  appointmentType: string;
+  sessionType: string;
   createdAt: string;
 }
 
 const Sessions: React.FC = () => {
   const [rows, setRows] = useState([] as IRow[]);
   const [filteredRows, setFilteredRows] = useState([] as IRow[]);
+  const { data } = useSessionList({ id: getUserId() });
 
   const columns: GridColDef<IRow>[] = [
     {
@@ -33,14 +34,14 @@ const Sessions: React.FC = () => {
       headerClassName: "themeHeader",
     },
     {
-      field: "professionalId",
+      field: "professional",
       headerName: "Profissional",
       width: 150,
       editable: false,
       headerClassName: "themeHeader",
     },
     {
-      field: "patientId",
+      field: "patient",
       headerName: "Paciente",
       width: 150,
       headerClassName: "themeHeader",
@@ -53,7 +54,7 @@ const Sessions: React.FC = () => {
       headerClassName: "themeHeader",
     },
     {
-      field: "statusId",
+      field: "status",
       headerName: "Status",
       width: 110,
       editable: false,
@@ -67,14 +68,14 @@ const Sessions: React.FC = () => {
       headerClassName: "themeHeader",
     },
     {
-      field: "appointmentTypeId",
+      field: "appointmentType",
       headerName: "Tipo de apontamento",
       width: 160,
       editable: false,
       headerClassName: "themeHeader",
     },
     {
-      field: "sessionTypeId",
+      field: "sessionType",
       headerName: "Tipo de Sessão",
       width: 160,
       editable: false,
@@ -89,37 +90,39 @@ const Sessions: React.FC = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const rowMapped = data.map((patient) => {
-  //       return {
-  //         id: patient.id,
-  //         name: patient.name,
-  //         cpf: patient.cpf,
-  //         email: patient.email,
-  //         gender: patient.gender,
-  //         createdAt: formatDate(patient.createdAt),
-  //       };
-  //     }, []);
-  //     setRows(rowMapped);
-  //   } else {
-  //     setRows([]);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      const rowMapped = data.map((session) => {
+        return {
+          id: session.id,
+          professional: session.professional.name,
+          patient: session.patient.name,
+          appointmentDate: formatDate(session.appointmentDate),
+          status: session.status,
+          topic: session.topic,
+          appointmentType: session.appointmentType,
+          sessionType: session.sessionType,
+          createdAt: formatDate(session.createdAt),
+        };
+      }, []);
+      setRows(rowMapped);
+    } else {
+      setRows([]);
+    }
+  }, [data]);
 
   const handleSearch = (input: string) => {
-    console.log(input);
-    // if (input.length === 0) {
-    //   setFilteredRows([]);
-    // } else {
-    //   const search = rows.filter((patient) => {
-    //     return (
-    //       patient.name.includes(input.toLocaleLowerCase()) ||
-    //       patient.cpf.includes(input.toLocaleLowerCase())
-    //     );
-    //   });
-    //   setFilteredRows(search);
-    // }
+    if (input.length === 0) {
+      setFilteredRows([]);
+    } else {
+      const search = rows.filter((session) => {
+        return (
+          session.patient.toLowerCase().indexOf(input) !== -1 ||
+          session.status.toLowerCase().indexOf(input) !== -1
+        );
+      });
+      setFilteredRows(search);
+    }
   };
 
   return (
@@ -131,11 +134,11 @@ const Sessions: React.FC = () => {
           onChange={(e) => {
             handleSearch(e.target.value);
           }}
-        ></InputSeach>
-        <SessionButton>
+        />
+        {/* <SessionButton>
           <AddCircleIcon className="iconTheme" />
           Nova Sessão
-        </SessionButton>
+        </SessionButton> */}
       </CustomHeader>
       <Box
         sx={{

@@ -38,4 +38,5 @@ export const InputSeach = styled.input`
   justify-content: center;
   display: flex;
   padding: 10px;
+  margin-left: 20px;
 `;

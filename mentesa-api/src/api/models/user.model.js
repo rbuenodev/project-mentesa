@@ -56,19 +56,19 @@ const userSchema = new mongoose.Schema({
     maxlength: 128,
     index: true,
     trim: true,
-},
-approach: {
+  },
+  approach: {
     type: String,
     maxlength: 128,
     index: true,
     trim: true,
-},
-contact: {
+  },
+  contact: {
     type: String,
     maxlength: 128,
     index: true,
     trim: true,
-},
+  },
 }, {
   timestamps: true,
 });
@@ -79,7 +79,7 @@ contact: {
  * - validations
  * - virtuals
  */
-userSchema.pre('save', async function save(next) {
+ userSchema.pre('save', async function save(next) {
   try {
     if (!this.isModified('password')) return next();
 
@@ -97,10 +97,10 @@ userSchema.pre('save', async function save(next) {
 /**
  * Methods
  */
-userSchema.method({
+ userSchema.method({
   transform() {
     const transformed = {};
-    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
+    const fields = ['id', 'name', 'email', 'picture', 'role', 'crp', 'approach', 'contact', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];
@@ -126,7 +126,7 @@ userSchema.method({
 /**
  * Statics
  */
-userSchema.statics = {
+ userSchema.statics = {
 
   roles,
 

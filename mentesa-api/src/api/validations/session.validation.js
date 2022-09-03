@@ -7,12 +7,12 @@ module.exports = {
         query: {
             page: Joi.number().min(1),
             perPage: Joi.number().min(1).max(100),
-            professionalId: Joi.string(),
-            patientId: Joi.string(),
-            statusId: Joi.string(),
+            professional: Joi.string(),
+            patient: Joi.string(),
+            status: Joi.string(),
             topic: Joi.string(),
-            appointmentTypeId: Joi.string(),
-            sessionTypeId: Joi.string(),
+            appointmentType: Joi.string(),
+            sessionType: Joi.string(),
             duration: Joi.string(),
         },
         params: {
@@ -23,15 +23,15 @@ module.exports = {
     // POST /v1/:professionalId/sessions
     createSession: {
         body: {
-            professionalId: Joi.string().required(),
-            patientId: Joi.string().required(),
-            statusId: Joi.string().required(),
+            professional: Joi.string().required(),
+            patient: Joi.string().required(),
+            status: Joi.string().required(),
             topic: Joi.string(),
-            appointmentTypeId: Joi.string(),
-            sessionTypeId: Joi.string(),
+            appointmentType: Joi.string(),
+            sessionType: Joi.string(),
             duration: Joi.string(),
         },
-        params: {            
+        params: {
             professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
         },
     },
@@ -39,12 +39,12 @@ module.exports = {
     // PUT /v1/:professionalId/sessions/:sessionId
     replaceSession: {
         body: {
-            professionalId: Joi.string().required(),
-            patientId: Joi.string().required(),
+            professional: Joi.string().required(),
+            patient: Joi.string().required(),
             statusId: Joi.string(),
             topic: Joi.string(),
-            appointmentTypeId: Joi.string(),
-            sessionTypeId: Joi.string(),
+            appointmentType: Joi.string(),
+            sessionType: Joi.string(),
             duration: Joi.string(),
         },
         params: {
@@ -56,12 +56,12 @@ module.exports = {
     // PATCH /v1/:professionalId/sessions/:sessionId
     updateSession: {
         body: {
-            professionalId: Joi.string().required(),
-            patientId: Joi.string().required,
-            statusId: Joi.string(),
+            professional: Joi.string().required(),
+            patient: Joi.string().required,
+            status: Joi.string(),
             topic: Joi.string(),
-            appointmentTypeId: Joi.string(),
-            sessionTypeId: Joi.string(),
+            appointmentType: Joi.string(),
+            sessionType: Joi.string(),
             duration: Joi.string(),
         },
         params: {

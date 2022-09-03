@@ -43,7 +43,7 @@ export async function fetchAddPatient({
   createdAt,
   cpf,
   birthday,
-  professionalId,
+  professional,
 }: PatientDto): Promise<PatientDto> {
   const params = {
     id,
@@ -53,10 +53,10 @@ export async function fetchAddPatient({
     createdAt,
     cpf,
     birthday,
-    professionalId,
+    professional,
   };
 
-  const url = `${professionalId}/patients`;
+  const url = `${professional}/patients`;
   const { data } = await api.post(url, params);
   return data;
 }
@@ -69,7 +69,7 @@ export async function fetchEditPatient({
   createdAt,
   cpf,
   birthday,
-  professionalId,
+  professional,
 }: PatientDto): Promise<PatientDto> {
   const params = {
     id,
@@ -79,10 +79,10 @@ export async function fetchEditPatient({
     createdAt,
     cpf,
     birthday,
-    professionalId,
+    professional,
   };
 
-  const url = `${professionalId}/patients`;
+  const url = `${professional}/patients`;
   const { data } = await api.put(url, params);
   return data;
 }

@@ -8,7 +8,7 @@ const APIError = require('../errors/api-error');
  * @private
  */
 const patientSchema = new mongoose.Schema({
-    professionalId: {
+    professional: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
@@ -53,7 +53,7 @@ const patientSchema = new mongoose.Schema({
 patientSchema.method({
     transform() {
         const transformed = {};
-        const fields = ['id', 'professionalId', 'name', 'email', 'cpf', 'gender', 'birthday', 'createdAt'];
+        const fields = ['id', 'professional', 'name', 'email', 'cpf', 'gender', 'birthday', 'createdAt'];
 
         fields.forEach((field) => {
             transformed[field] = this[field];
@@ -78,7 +78,7 @@ patientSchema.statics = {
         let patient;
 
         if (mongoose.Types.ObjectId.isValid(id)) {
-            patient = await this.findById(id).exec();
+            patient = await this.findById(id).populate("professional").exec();
         }
         if (patient) {
             return patient;
@@ -98,9 +98,9 @@ patientSchema.statics = {
      * @returns {Promise<Pacient[]>}
      */
     list({
-        page = 1, perPage = 30, id, professionalId, name, email, cpf, gender, birthday,
+        page = 1, perPage = 30, id, professional, name, email, cpf, gender, birthday,
     }) {
-        const options = omitBy({ id, professionalId, name, email, cpf, gender, birthday }, isNil);
+        const options = omitBy({ id, professional, name, email, cpf, gender, birthday }, isNil);
 
         return this.find(options,)
             .sort({ createdAt: -1 })
