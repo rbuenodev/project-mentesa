@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
 const Session = require('../models/session.model');
-const SessionPatient  = require('../models/sessionPatient.model');
+const SessionPatient = require('../models/sessionPatient.model');
 
 /**
  * Load session and append to req.
@@ -33,16 +33,16 @@ exports.loggedIn = (req, res) => res.json(req.session.transform());
  * @public
  */
 exports.create = async (req, res, next) => {
-  try {    
+  try {
     const session = new Session(req.body);
     const savedSession = await session.save();
-    const { patientId,professionalId }= savedSession;
-    const sessionPatient = new SessionPatient(({patientId,professionalId}));
-    await sessionPatient.save();
+    // const { patientId, id } = savedSession.transform();
+    // const sessionPatient = new SessionPatient(({ patientId, id }));
+    // await sessionPatient.save();
     res.status(httpStatus.CREATED);
-    res.json(savedSession.transform());    
+    res.json(savedSession.transform());
   } catch (error) {
-    next(User.checkDuplicateEmail(error));
+    next(error);
   }
 };
 
@@ -53,14 +53,14 @@ exports.create = async (req, res, next) => {
 exports.replace = async (req, res, next) => {
   try {
     const { session } = req.locals;
-    const newSession = new Session(req.body);    
+    const newSession = new Session(req.body);
     const newSessionObject = omit(newSession.toObject(), '_id');
     await session.updateOne(newSessionObject, { override: true, upsert: true });
     const savedSession = await Session.findById(session._id);
 
     res.json(savedSession.transform());
   } catch (error) {
-    next(User.checkDuplicateEmail(error));
+    next(error);
   }
 };
 

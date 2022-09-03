@@ -11,6 +11,7 @@ module.exports = {
             name: Joi.string(),
             gender: Joi.string(),
             birthday: Joi.date(),
+            createdAt: Joi.date(),
         },   
         params: {
             professionalId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),                   
@@ -20,7 +21,7 @@ module.exports = {
     // POST /v1/:professionalId/patients
     createPatient: {
         body: {
-            userId: Joi.string().required(),
+            professionalId: Joi.string().required(),
             name: Joi.string().required(),
             cpf: Joi.string().required(),
             email: Joi.string().email(),

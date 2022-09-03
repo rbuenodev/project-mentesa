@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
-export const PatientButton = styled.button`
+export const SessionButton = styled.button`
   width: 20%;
   margin: 7px 0;
   padding: 10px;

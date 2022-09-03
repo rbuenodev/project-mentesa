@@ -41,7 +41,7 @@ export async function fetchAddPatient({
   email,
   gender,
   createdAt,
-  cfp,
+  cpf,
   birthday,
   professionalId,
 }: PatientDto): Promise<PatientDto> {
@@ -51,7 +51,7 @@ export async function fetchAddPatient({
     email,
     gender,
     createdAt,
-    cfp,
+    cpf,
     birthday,
     professionalId,
   };
@@ -67,7 +67,7 @@ export async function fetchEditPatient({
   email,
   gender,
   createdAt,
-  cfp,
+  cpf,
   birthday,
   professionalId,
 }: PatientDto): Promise<PatientDto> {
@@ -77,7 +77,7 @@ export async function fetchEditPatient({
     email,
     gender,
     createdAt,
-    cfp,
+    cpf,
     birthday,
     professionalId,
   };

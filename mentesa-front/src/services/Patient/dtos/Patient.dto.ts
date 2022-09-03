@@ -4,7 +4,7 @@ export interface PatientDto {
   email: string;
   gender: string;
   createdAt: string;
-  cfp: string;
+  cpf: string;
   birthday: string;
   professionalId: string;
 }

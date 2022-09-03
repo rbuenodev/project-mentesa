@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useLayoutEffect, useState } from "react";
 import CardInfo from "../../components/CardsInfo";
 import { getUserId } from "../../services/Auth/service";
 import { usePatientList } from "../../services/Patient/hooks";
@@ -10,7 +9,7 @@ const Dashboard: React.FC = () => {
   const [totalPatients, setTotalPatients] = useState(0);
 
   const { data } = usePatientList({ id: getUserId() });
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (data) setTotalPatients(data.length);
   }, [data]);
 

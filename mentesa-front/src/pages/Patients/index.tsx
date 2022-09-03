@@ -1,68 +1,134 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomHeader from "../../components/Header";
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Container } from "@mui/material";
+import { usePatientList } from "../../services/Patient/hooks";
+import { getUserId } from "../../services/Auth/service";
+import formatDate from "../../utils/formatDate";
+import { InputSeach, PatientButton } from "./style";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+
+interface IRow {
+  id: string;
+  name: string;
+  cpf: string;
+  email: string;
+  gender: string;
+  createdAt: string;
+}
 
 const Patients: React.FC = () => {
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 90 },
+  const [rows, setRows] = useState([] as IRow[]);
+  const [filteredRows, setFilteredRows] = useState([] as IRow[]);
+  const { data } = usePatientList({ id: getUserId() });
+
+  const columns: GridColDef<IRow>[] = [
     {
-      field: "firstName",
-      headerName: "First name",
-      width: 150,
-      editable: true,
+      field: "id",
+      headerName: "ID",
+      width: 90,
+      headerClassName: "themeHeader",
     },
     {
-      field: "lastName",
-      headerName: "Last name",
+      field: "name",
+      headerName: "Nome",
       width: 150,
-      editable: true,
+      editable: false,
+      headerClassName: "themeHeader",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
+      field: "cpf",
+      headerName: "CPF",
+      width: 150,
+      headerClassName: "themeHeader",
+    },
+    {
+      field: "email",
+      headerName: "E-mail",
+      width: 150,
+      editable: false,
+      headerClassName: "themeHeader",
+    },
+    {
+      field: "gender",
+      headerName: "Gênero",
       width: 110,
-      editable: true,
+      editable: false,
+      headerClassName: "themeHeader",
     },
     {
-      field: "fullName",
-      headerName: "Full name",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
+      field: "createdAt",
+      headerName: "Data de registo",
       width: 160,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      editable: false,
+      headerClassName: "themeHeader",
     },
   ];
 
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
+  useEffect(() => {
+    if (data) {
+      const rowMapped = data.map((patient) => {
+        return {
+          id: patient.id,
+          name: patient.name,
+          cpf: patient.cpf,
+          email: patient.email,
+          gender: patient.gender,
+          createdAt: formatDate(patient.createdAt),
+        };
+      }, []);
+      setRows(rowMapped);
+    } else {
+      setRows([]);
+    }
+  }, [data]);
+
+  const handleSearch = (input: string) => {
+    console.log(input);
+    if (input.length === 0) {
+      setFilteredRows([]);
+    } else {
+      const search = rows.filter((patient) => {
+        return (
+          patient.name.includes(input.toLocaleLowerCase()) ||
+          patient.cpf.includes(input.toLocaleLowerCase())
+        );
+      });
+      setFilteredRows(search);
+    }
+  };
 
   return (
     <Container>
       <CustomHeader>
-        <h1>Patients</h1>
-        <span>pesq</span>
-        <span>botao</span>
+        <h1>Meus Pacientes</h1>
+        <InputSeach
+          placeholder="Pesquisar"
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+        ></InputSeach>
+        <PatientButton>
+          <AddCircleIcon className="iconTheme" />
+          Novo Paciente
+        </PatientButton>
       </CustomHeader>
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box
+        sx={{
+          height: 400,
+          width: "100%",
+          "& .themeHeader": {
+            backgroundColor: "#6813d4",
+            color: "#fff",
+          },
+        }}
+      >
         <DataGrid
-          rows={rows}
+          rows={filteredRows.length === 0 ? rows : filteredRows}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
         />

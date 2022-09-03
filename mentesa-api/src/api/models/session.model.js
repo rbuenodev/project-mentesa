@@ -23,8 +23,9 @@ const sessionSchema = new mongoose.Schema({
         index: true,
     },
     statusId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SessionStatus',
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'SessionStatus',
         required: true,
     },
     topic: {
@@ -34,12 +35,14 @@ const sessionSchema = new mongoose.Schema({
         trim: true,
     },
     appointmentTypeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'AppointmentType',
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'AppointmentType',
     },
     sessionTypeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SessionType',
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'SessionType',
     },
     duration: {
         type: String,
