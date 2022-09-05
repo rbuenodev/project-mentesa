@@ -5,8 +5,10 @@
 #Para executar o projeto utilizando o Docker:
 
 ```bash
+cd mentesa-front
 docker-compose up -d
 docker exec -it mentesa-app bash
+npm i
 npm run dev
 ```
 
